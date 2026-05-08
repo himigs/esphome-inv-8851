@@ -22,11 +22,17 @@ sensor:
     state_class: measurement
     accuracy_decimals: 1
     lambda: |-
-      if (id(grid_voltage).has_state() && id(grid_current).has_state()) {
-        return id(grid_voltage).state * id(grid_current).state;
-      } else {
-        return NAN;
+      if (!id(grid_voltage).has_state() || id(grid_voltage).state < 50.0) {
+        return 0.0;
       }
+      float load = id(load_power).has_state() ? id(load_power).state : 0.0;
+      float pv = id(pv_power).has_state() ? id(pv_power).state : 0.0;
+      float battery = id(battery_power).has_state() ? id(battery_power).state : 0.0;
+      float grid_balance = load - pv + battery;
+      float native_grid = id(grid_voltage).state * (id(grid_current).has_state() ? id(grid_current).state : 0.0);
+      
+      float final_grid = std::max(grid_balance, native_grid);
+      return final_grid > 0 ? final_grid : 0.0;
 
   - platform: integration
     name: "Grid Energy Total"
