@@ -1,3 +1,6 @@
+substitutions:
+  inverter_idle_power: "0"
+
 binary_sensor:
   - platform: inv_8851
     battery:
@@ -29,7 +32,12 @@ sensor:
     update_interval: 5s
     lambda: |-
       if (id(battery_voltage).has_state() && id(battery_charge_current).has_state()) {
-        return id(battery_voltage).state * id(battery_charge_current).state;
+        float power = id(battery_voltage).state * id(battery_charge_current).state;
+        float idle_power = ${inverter_idle_power};
+        if (power <= 0) {
+          power -= idle_power;
+        }
+        return power;
       } else {
         return NAN;
       }
