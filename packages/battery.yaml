@@ -78,6 +78,8 @@ sensor:
     device_class: energy
     state_class: total_increasing
     integration_method: left
+    filters:
+      - multiply: 0.001
 
   - platform: integration
     name: "Battery Discharge Energy Total"
@@ -87,6 +89,8 @@ sensor:
     device_class: energy
     state_class: total_increasing
     integration_method: left
+    filters:
+      - multiply: 0.001
 
 select:
   - platform: inv_8851
