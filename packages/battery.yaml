@@ -32,7 +32,13 @@ sensor:
     update_interval: 5s
     lambda: |-
       if (id(battery_voltage).has_state() && id(battery_charge_current).has_state()) {
-        float power = id(battery_voltage).state * id(battery_charge_current).state;
+        float current = id(battery_charge_current).state;
+        // Filtro de ruído (Deadband): ignora oscilações do ADC do inversor entre -0.3A e 0.3A
+        if (current >= -0.3 && current <= 0.3) {
+          current = 0.0;
+        }
+        
+        float power = id(battery_voltage).state * current;
         float idle_power = ${inverter_idle_power};
         if (power <= 0) {
           power -= idle_power;
