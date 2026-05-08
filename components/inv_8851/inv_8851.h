@@ -1,7 +1,7 @@
 #pragma once
 
-#include "inv8851.h"
 #include "esphome/core/component.h"
+#include "inv8851.h"
 #include "esphome/components/uart/uart.h"
 
 #ifdef USE_BINARY_SENSOR
