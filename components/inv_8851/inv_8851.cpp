@@ -399,10 +399,10 @@ void Inv8851::publish_state_(const uint8_t *resp) {
     PUBLISH_STATE(this->grid_frequency_sensor_, state->grid_freq / 100.0f);
     PUBLISH_STATE(this->grid_voltage_sensor_, state->grid_voltage / 10.0f);
     PUBLISH_STATE(this->inverter_apparent_power_sensor_, state->inv_va);
-    PUBLISH_STATE(this->inverter_apparent_power_percentage_sensor_, state->inverter_va_percent);
+    PUBLISH_STATE(this->inverter_apparent_power_percentage_sensor_, state->inverter_va_percent & 0xFF);
     PUBLISH_STATE(this->inverter_current_sensor_, state->inv_current / 100.0f);
     PUBLISH_STATE(this->inverter_frequency_sensor_, state->inv_freq / 100.0f);
-    PUBLISH_STATE(this->inverter_power_percentage_sensor_, state->inverter_watt_percent);
+    PUBLISH_STATE(this->inverter_power_percentage_sensor_, state->inverter_watt_percent & 0xFF);
     PUBLISH_STATE(this->inverter_software_version_sensor_, state->software_version);
     PUBLISH_STATE(this->inverter_voltage_sensor_, state->inv_voltage / 10.0f);
     PUBLISH_STATE(this->inverter_voltage_dc_component_sensor_, state->inverter_voltage_dc_component);
@@ -429,7 +429,11 @@ void Inv8851::publish_config_(const uint8_t *resp) {
   #ifdef USE_SELECT
     PUBLISH_STATE(this->auto_return_select_, off_on_options[config->auto_return_to_default_screen]);
     PUBLISH_STATE(this->backlight_select_, off_on_options[config->backlight_on]);
-    PUBLISH_STATE(this->battery_equalization_select_, off_on_options[config->battery_equalization]);
+    
+    // Safety check para battery_equalization (apenas 0 ou 1)
+    uint8_t eq_val = config->battery_equalization & 0x01;
+    PUBLISH_STATE(this->battery_equalization_select_, off_on_options[eq_val]);
+    
     PUBLISH_STATE(this->battery_type_select_, battery_type_options[config->battery_type]);
     PUBLISH_STATE(this->buzzer_select_, off_on_options[config->alarm_control]);
     PUBLISH_STATE(this->charge_energy_priority_select_, charge_energy_priority_options[config->charge_energy_priority]);
