@@ -36,8 +36,7 @@ sensor:
         battery_raw = id(battery_voltage).state * current;
       }
       
-      float idle_power = ${inverter_idle_power};
-      float grid_balance = load - pv + battery_raw + idle_power;
+      float grid_balance = load - pv + battery_raw;
       float native_grid = id(grid_voltage).state * (id(grid_current).has_state() ? id(grid_current).state : 0.0);
       
       float final_grid = std::max(grid_balance, native_grid);
