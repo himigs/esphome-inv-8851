@@ -15,8 +15,78 @@ sensor:
   - platform: inv_8851
     battery_charge_current:
       name: "Battery charge current"
+      id: battery_charge_current
     battery_voltage:
       name: "Battery voltage"
+      id: battery_voltage
+
+  - platform: template
+    name: "Battery Power"
+    id: battery_power
+    unit_of_measurement: "W"
+    device_class: "power"
+    state_class: "measurement"
+    update_interval: 5s
+    lambda: |-
+      if (id(battery_voltage).has_state() && id(battery_charge_current).has_state()) {
+        return id(battery_voltage).state * id(battery_charge_current).state;
+      } else {
+        return NAN;
+      }
+
+  - platform: template
+    name: "Battery Charging Power"
+    id: battery_charging_power
+    unit_of_measurement: "W"
+    device_class: "power"
+    state_class: "measurement"
+    update_interval: 5s
+    lambda: |-
+      if (id(battery_power).has_state()) {
+        if (id(battery_power).state > 0) {
+          return id(battery_power).state;
+        } else {
+          return 0.0;
+        }
+      } else {
+        return NAN;
+      }
+
+  - platform: template
+    name: "Battery Discharging Power"
+    id: battery_discharging_power
+    unit_of_measurement: "W"
+    device_class: "power"
+    state_class: "measurement"
+    update_interval: 5s
+    lambda: |-
+      if (id(battery_power).has_state()) {
+        if (id(battery_power).state < 0) {
+          return std::abs(id(battery_power).state);
+        } else {
+          return 0.0;
+        }
+      } else {
+        return NAN;
+      }
+
+  - platform: integration
+    name: "Battery Charge Energy Total"
+    sensor: battery_charging_power
+    time_unit: h
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    integration_method: left
+
+  - platform: integration
+    name: "Battery Discharge Energy Total"
+    sensor: battery_discharging_power
+    time_unit: h
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    integration_method: left
 
 select:
   - platform: inv_8851
