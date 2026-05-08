@@ -27,8 +27,16 @@ sensor:
       }
       float load = id(load_power).has_state() ? id(load_power).state : 0.0;
       float pv = id(pv_power).has_state() ? id(pv_power).state : 0.0;
-      float battery = id(battery_power).has_state() ? id(battery_power).state : 0.0;
-      float grid_balance = load - pv + battery;
+      
+      // Usa os dados crus da bateria para o balanço, ignorando o Gato Matemático de -35W do sensor principal
+      float battery_raw = 0.0;
+      if (id(battery_voltage).has_state() && id(battery_charge_current).has_state()) {
+        float current = id(battery_charge_current).state;
+        if (current >= -0.3 && current <= 0.3) current = 0.0; // Filtro de ruído
+        battery_raw = id(battery_voltage).state * current;
+      }
+      
+      float grid_balance = load - pv + battery_raw;
       float native_grid = id(grid_voltage).state * (id(grid_current).has_state() ? id(grid_current).state : 0.0);
       
       float final_grid = std::max(grid_balance, native_grid);
