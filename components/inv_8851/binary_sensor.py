@@ -15,7 +15,7 @@ from . import (
 
 DEPENDENCIES = ["inv_8851"]
 
-CODEOWNERS = ["@lufton"]
+CODEOWNERS = ["@himigs"]
 
 CONF_BATTERY = "battery"
 CONF_BUCK_TOPOLOGY_INITIALIZATION = "buck_topology_initialization"

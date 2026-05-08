@@ -7,10 +7,38 @@ sensor:
   - platform: inv_8851
     grid_current:
       name: "Grid current"
+      id: grid_current
     grid_frequency:
       name: "Grid frequency"
     grid_voltage:
       name: "Grid voltage"
+      id: grid_voltage
+
+  - platform: template
+    name: "Grid power"
+    id: grid_power
+    unit_of_measurement: "W"
+    device_class: power
+    state_class: measurement
+    accuracy_decimals: 1
+    lambda: |-
+      if (id(grid_voltage).has_state() && id(grid_current).has_state()) {
+        return id(grid_voltage).state * id(grid_current).state;
+      } else {
+        return NAN;
+      }
+
+  - platform: integration
+    name: "Grid Energy Total"
+    sensor: grid_power
+    time_unit: h
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 2
+    integration_method: left
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: "kWh"
 
 select:
   - platform: inv_8851

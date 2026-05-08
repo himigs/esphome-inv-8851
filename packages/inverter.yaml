@@ -48,10 +48,23 @@ sensor:
       name: "Load current"
     load_power:
       name: "Load power"
+      id: load_power
     log_number:
       name: "Log number"
     low_load_current:
       name: "Low load current"
+
+  - platform: integration
+    name: "Load Energy Total"
+    sensor: load_power
+    time_unit: h
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 2
+    integration_method: left
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: "kWh"
 
 select:
   - platform: inv_8851

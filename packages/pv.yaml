@@ -18,5 +18,18 @@ sensor:
       name: "PV current"
     pv_power:
       name: "PV power"
+      id: pv_power
     pv_voltage:
       name: "PV voltage"
+
+  - platform: integration
+    name: "PV Energy Total"
+    sensor: pv_power
+    time_unit: h
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 2
+    integration_method: left
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: "kWh"

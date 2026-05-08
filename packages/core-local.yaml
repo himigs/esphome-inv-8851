@@ -3,7 +3,7 @@ esphome:
   friendly_name: ${friendly_name}
   comment: "Inverter DTU"
   project:
-    name: "lufton.esphome-inv-8851"
+    name: "himigs.esphome-inv-8851"
     version: 1.0.0
   libraries:
     - leodesigner/PowMr_4500_regmap
@@ -49,7 +49,7 @@ uart:
         - lambda: UARTDebug::log_hex(direction, bytes, ' ');
 
 external_components:
-  - source: components
+  - source: ../../components
 
 inv_8851:
   version: ${version}

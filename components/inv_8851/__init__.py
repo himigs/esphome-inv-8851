@@ -5,7 +5,7 @@ from esphome.const import CONF_ID, CONF_VERSION
 
 DEPENDENCIES = ["uart"]
 
-CODEOWNERS = ["@lufton"]
+CODEOWNERS = ["@himigs"]
 
 CONF_INV_8851_ID = "inv_8851_id"
 ALLOWED_VERSIONS = [1, 2]

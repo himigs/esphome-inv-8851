@@ -1,15 +1,17 @@
 substitutions:
   inverter_maximum_power: "4500"
   version: "2"
-  name: wifi-plug-pro-05
-  friendly_name: Wi-Fi Plug Pro-05
+  name: inverter
+  friendly_name: Inverter
+  uart_tx_pin: GPIO1
+  uart_rx_pin: GPIO3
 
-esp8266:
+esp32:
   board: d1_mini
 
 packages:
   inv_8851:
-    url: https://github.com/lufton/esphome-inv-8851
+    url: https://github.com/himigs/esphome-inv-8851
     ref: main
     files:
       - packages/core.yaml
@@ -21,7 +23,6 @@ packages:
       # - packages/pv.yaml
       # - packages/parallel.yaml
       # - packages/bms-24v.yaml
-      - packages/wifi-plug-pro-05.yaml
     refresh: 0s
 
 wifi:
@@ -39,19 +40,3 @@ api:
 ota:
   - platform: esphome
     password: !secret ota_password
-
-interval:
-  interval: 1s
-  then:
-    if:
-      condition: api.connected # mqtt.connected
-      then:
-        if:
-          condition:
-            light.is_off: srv_led
-          then:
-            light.turn_on: srv_led
-      else:
-        - light.turn_on: srv_led
-        - delay: 500ms
-        - light.turn_off: srv_led

@@ -1,17 +1,15 @@
 substitutions:
-  inverter_maximum_power: "6500"
+  inverter_maximum_power: "4500"
   version: "2"
-  name: inverter
-  friendly_name: Inverter
-  uart_tx_pin: GPIO1
-  uart_rx_pin: GPIO3
+  name: dtu-wbs1-v001
+  friendly_name: DTU WBS1-V001
 
 esp32:
-  board: d1_mini
+  board: esp32-c3-devkitm-1
 
 packages:
   inv_8851:
-    url: https://github.com/lufton/esphome-inv-8851
+    url: https://github.com/himigs/esphome-inv-8851
     ref: main
     files:
       - packages/core.yaml
@@ -19,10 +17,11 @@ packages:
       - packages/grid.yaml
       - packages/temperature.yaml
       - packages/battery.yaml
-      - packages/battery-48v.yaml
+      - packages/battery-24v.yaml
       # - packages/pv.yaml
       # - packages/parallel.yaml
-      # - packages/bms-48v.yaml
+      # - packages/bms-24v.yaml
+      - packages/dtu_wbs1_v001.yaml
     refresh: 0s
 
 wifi:

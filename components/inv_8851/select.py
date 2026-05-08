@@ -14,7 +14,7 @@ from . import (
 
 DEPENDENCIES = ["inv_8851"]
 
-CODEOWNERS = ["@lufton"]
+CODEOWNERS = ["@himigs"]
 
 CONF_AUTO_RETURN = "auto_return"
 CONF_BACKLIGHT = "backlight"

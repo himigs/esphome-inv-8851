@@ -10,15 +10,20 @@ esp32:
   board: wemos_d1_mini32
 
 packages:
-  core: !include packages/core-local.yaml
-  inverter: !include packages/inverter.yaml
-  grid: !include packages/grid.yaml
-  temperature: !include packages/temperature.yaml
-  battery: !include packages/battery.yaml
-  battery-48v: !include packages/battery-48v.yaml
-  # pv: !include packages/pv.yaml
-  # parallel: !include packages/parallel.yaml
-  # bms-48v: !include packages/bms-48v.yaml
+  inv_8851:
+    url: https://github.com/himigs/esphome-inv-8851
+    ref: main
+    files:
+      - packages/core.yaml
+      - packages/inverter.yaml
+      - packages/grid.yaml
+      - packages/temperature.yaml
+      - packages/battery.yaml
+      - packages/battery-48v.yaml
+      # - packages/pv.yaml
+      # - packages/parallel.yaml
+      # - packages/bms-48v.yaml
+    refresh: 0s
 
 wifi:
   ssid: !secret wifi_ssid

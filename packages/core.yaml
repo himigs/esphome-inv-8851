@@ -3,7 +3,7 @@ esphome:
   friendly_name: ${friendly_name}
   comment: "Inverter DTU"
   project:
-    name: "lufton.esphome-inv-8851"
+    name: "himigs.esphome-inv-8851"
     version: 1.0.0
   libraries:
     - leodesigner/PowMr_4500_regmap
@@ -19,7 +19,7 @@ uart:
     rx_pin: ${uart_rx_pin}
 
 external_components:
-  - source: github://lufton/esphome-inv-8851@main
+  - source: github://himigs/esphome-inv-8851@main
     refresh: 0s
 
 inv_8851:

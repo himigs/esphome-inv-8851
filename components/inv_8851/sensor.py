@@ -29,7 +29,7 @@ from . import (
 
 DEPENDENCIES = ["inv_8851"]
 
-CODEOWNERS = ["@lufton"]
+CODEOWNERS = ["@himigs"]
 
 CONF_BATTERY_CHARCHE_CURRENT = "battery_charge_current"
 CONF_BATTERY_TYPE = "battery_type"

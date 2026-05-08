@@ -26,7 +26,7 @@ from . import (
 
 DEPENDENCIES = ["inv_8851"]
 
-CODEOWNERS = ["@lufton"]
+CODEOWNERS = ["@himigs"]
 
 CONF_BATTERY_BACK_TO_UTIL_VOLTAGE = "battery_back_to_util_voltage"
 CONF_BATTERY_BULK_VOLTAGE = "battery_bulk_voltage"

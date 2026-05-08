@@ -12,7 +12,7 @@ from . import (
 
 DEPENDENCIES = ["inv_8851"]
 
-CODEOWNERS = ["@lufton"]
+CODEOWNERS = ["@himigs"]
 
 CONF_BUCK_TOPOLOGY = "buck_topology"
 CONF_INVERTER_TOPOLOGY = "inverter_topology"

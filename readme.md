@@ -15,7 +15,7 @@ By using this project, you acknowledge and agree to these terms. If you do not a
 
 ## Compatible inverters
 
-* PowMr POW-HVM6.5K-48V (tested by [@lufton](https://github.com/lufton))
+* PowMr POW-HVM6.5K-48V (tested by [@himigs](https://github.com/himigs))
 * PowMr POW-HVM4.5K-24V
 * Simular inverters that utilize the same DTU (WBS1-V001)
 
@@ -87,9 +87,20 @@ Number entity `inverter_maximum_power` sets software limitaion for inverter's ma
 
 **Please make sure you understand what you're doing before adjusting this parameter.**
 
-## Flashing DTU WBS1-V001
+## Flashing ESP32 or ESP8266 (DIY Recommended)
 
-You can flash WBS1-V001 using this component (use corresponding `dtu-wbs1-v001...-example.yaml` file). This way you can use original DTU with much more comfortable and easy way. This configuration also supports onboard LED indication.
+We highly recommend using a generic ESP32 or ESP8266 board for this project. It is safer, doesn't require modifying your original hardware, and allows you to keep the original DTU as a backup. Compact boards like the **ESP32 C3 Super Mini** are an excellent choice due to their size and low cost.
+
+You can flash ESP32 or ESP8266 using this component the same way you flash your other ESPHome projects. Read the [official guides](https://esphome.io/guides/) if you have any questions.
+
+Example configurations for generic boards can be found in the `examples/diy/` directory.
+
+## Flashing Original Hardware (Advanced)
+
+If you prefer to reuse the proprietary hardware that came with your inverter (such as the DTU WBS1-V001 or Wi-Fi Plug Pro-05), you can flash it using the examples in the `examples/original-hardware/` directory.
+
+You can flash WBS1-V001 using this component (use the corresponding `dtu-wbs1-v001...-example.yaml` file). This way you can use original DTU with much more comfortable and easy way. This configuration also supports onboard LED indication.
+
 In order to flash original DTU follow next steps:
 
 1. Disassemble DTU (it has 4 screws in the corners under the foamy sticker on the bottom)
@@ -102,22 +113,18 @@ In order to flash original DTU follow next steps:
 7. In order to restore original firmware connect DTU and USB to TTL module with BOOT1 pin connected to GND1 and run command (replace `COM1` and `DTU.bin` with valid port number and firmware dump file backed up in step 4 path):<br>
 `esptool.exe -p COM1 -b 460800 write_flash 0x0 DTU.bin`
 
-## Flashing ESP32 or ESP8266
-
-You can flash ESP32 or ESP8266 using this component the same way you flash your other ESPHome projects. Read [official guides](https://esphome.io/guides/) if you have any questions.
-
 ## Debugging
 
 If you have data retrival issues consider enabling debugging. In order to do so:
 
-1. Clone this repo locally ```git clone https://github.com/lufton/esphome-inv-8851.git```
+1. Clone this repo locally ```git clone https://github.com/himigs/esphome-inv-8851.git```
 2. Change `secrets.yaml` file accordingly
 3. Flash your device with `...-local.yaml` file that matches your hardware
 4. Check sireal port output, you should see:
     * Packets sent (`>>> 88 51 ...`) to inverter (should be present in any case)
     * Packets received (`<<< 88 51 ...`) from inverter (could be missing if there is an issue with communication between inverter and ESP8266/ESP32)
 5. Packets should start with `88 51 ...` (that's why this project and protocol was called `8851`):
-    * If you see incoming packets witch starts with `88 51 ...`, then it means your connection is correct, even though if you don't receive any values from inverter. That could mean you have other protocol revision witch could be analized and implemented. In this case just [create an issue](https://github.com/lufton/esphome-inv-8851/issues/new/choose) with your findings.
+    * If you see incoming packets witch starts with `88 51 ...`, then it means your connection is correct, even though if you don't receive any values from inverter. That could mean you have other protocol revision witch could be analized and implemented. In this case just [create an issue](https://github.com/himigs/esphome-inv-8851/issues/new/choose) with your findings.
     * If you see incoming packets witch starts with somesing else, then it means you definetly have an issue with wiring and noise. Check connection once again and try to use shorter wires.
     * If you don't see any incoming packets, then it could mean that there is something wrong with wiring or hardware. Check connection once again and make sure hardware you use is working corectly.
 
@@ -260,7 +267,7 @@ If you have data retrival issues consider enabling debugging. In order to do so:
 </details>
 
 ## Original firmware dump
-[Here](https://github.com/lufton/esphome-inv-8851/blob/main/DTU.bin) you can find original firmware dump file. Restore procedure described in the last step of [Flashing DTU WBS1-V001](#flashing-dtu-wbs1-v001) section.
+[Here](https://github.com/himigs/esphome-inv-8851/blob/main/DTU.bin) you can find original firmware dump file. Restore procedure described in the last step of [Flashing DTU WBS1-V001](#flashing-dtu-wbs1-v001) section.
 
 ## Thanks
 * [@leodesigner](https://github.com/leodesigner) for his work on [powmr4500_comm](https://github.com/leodesigner/powmr4500_comm)
