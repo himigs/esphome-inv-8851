@@ -106,6 +106,27 @@ sensor:
     filters:
       - multiply: 0.001
 
+  - platform: template
+    name: "Inverter Idle Power"
+    id: inverter_idle_power_sensor
+    unit_of_measurement: "W"
+    device_class: "power"
+    state_class: "measurement"
+    update_interval: 60s
+    lambda: |-
+      return ${inverter_idle_power};
+
+  - platform: integration
+    name: "Inverter Idle Energy Total"
+    sensor: inverter_idle_power_sensor
+    time_unit: h
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    integration_method: left
+    filters:
+      - multiply: 0.001
+
 select:
   - platform: inv_8851
     battery_equalization:
